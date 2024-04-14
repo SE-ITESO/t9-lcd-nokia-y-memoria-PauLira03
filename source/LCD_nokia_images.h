@@ -9,9 +9,6 @@
 #define LCD_NOKIA_IMAGES_H_
 
 #include "stdint.h"
-#include "DMA.h"
-#include "DAC.h"
-
 #define DATA_WIDTH			(2U)
 #define SRC_OFFSET			(2U)
 #define DEST_OFFSET			(0U)
@@ -27,6 +24,5 @@ typedef enum _img_addr
 	kLCD_IMG_BASE_ADDR_5    = 45056,
 }_img_addr_t;
 
-void LCD_DMAsend(DMA_Type *base, dma_channel_t channel, _img_addr_t img);
 
 #endif /* LCD_NOKIA_IMAGES_H_ */

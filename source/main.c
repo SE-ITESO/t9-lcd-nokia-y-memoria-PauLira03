@@ -21,7 +21,6 @@
 #include "stdint.h"
 #include "SPI.h"
 #include "Delay.h"
-#include "DMA.h"
 
 
 /*! This array hold the initial picture that is shown in the LCD. Note that extern should be avoided*/
@@ -34,10 +33,6 @@ extern uint8_t img_5[504];
 
 int main(void)
 {
-
-	DMAMUX_SetPeriodicTrigger(DMAMUX0, kDMAChannel0, DMA_SOURCE_AE);
-	EDMA_InitConfig(DMA0);
-	DMA_SetHandle(kDMAChannel0);
 
 	SPI_config();
 
