@@ -20,6 +20,7 @@
 #define TRANSFER_SIZE     64U     /*! Transfer dataSize */
 #define TRANSFER_BAUDRATE 1000000U /*! Transfer baudrate - 500k */
 
-void SPI_config(void);
+void SPI_config_LCD(void);
+void SPI_config_MEM(void);
 
 #endif /* SPI_H_ */

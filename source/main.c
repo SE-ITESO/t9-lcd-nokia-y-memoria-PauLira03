@@ -34,7 +34,8 @@ extern uint8_t img_5[504];
 int main(void)
 {
 
-	SPI_config();
+	SPI_config_LCD();
+	SPI_config_MEM();
 
 	LCD_nokia_init(); /*! Configuration function for the LCD */
 

@@ -15,14 +15,13 @@
 #define MINOR_LOOP_BYTES	(2U)
 #define MAJOR_LOOP_COUNTS	(20)
 
-typedef enum _img_addr
-{
-	kLCD_IMG_BASE_ADDR_1	= 28672,
-	kLCD_IMG_BASE_ADDR_2	= 32768,
-	kLCD_IMG_BASE_ADDR_3    = 36864,
-	kLCD_IMG_BASE_ADDR_4	= 40960,
-	kLCD_IMG_BASE_ADDR_5    = 45056,
-}_img_addr_t;
+
+#define LCD_img_base_addr_1 0x40000
+#define LCD_img_base_addr_2 0x41000
+#define LCD_img_base_addr_3 0x42000
+#define LCD_img_base_addr_4 0x43000
+
+#define LCD_img_base_addr_5 0x44000
 
 
 #endif /* LCD_NOKIA_IMAGES_H_ */

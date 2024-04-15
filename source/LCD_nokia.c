@@ -154,15 +154,17 @@ void LCD_nokia_write_byte(uint8_t data_or_command, uint8_t data)
 {
 	dspi_transfer_t masterXfer;
 
+	masterXfer.txData      = &data;
+	masterXfer.rxData      = NULL;
+	masterXfer.dataSize    = 1;
+	masterXfer.configFlags = kDSPI_MasterCtar0 | kDSPI_MasterPcs0 | kDSPI_MasterPcsContinuous;
+
+
 	if(data_or_command)
 		GPIO_PortSet(GPIO_DATA_OR_CMD_PIN, 1u << DATA_OR_CMD_PIN);
 	else
 		GPIO_PortClear(GPIO_DATA_OR_CMD_PIN, 1u << DATA_OR_CMD_PIN);
 
-	masterXfer.txData      = &data;
-	masterXfer.rxData      = NULL;
-	masterXfer.dataSize    = 1;
-	masterXfer.configFlags = kDSPI_MasterCtar0 | kDSPI_MasterPcs0 | kDSPI_MasterPcsContinuous;
 	DSPI_MasterTransferBlocking(SPI0, &masterXfer);
 
 }
