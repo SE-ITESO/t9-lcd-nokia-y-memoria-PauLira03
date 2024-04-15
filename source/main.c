@@ -30,6 +30,7 @@ extern uint8_t img_2[504];
 extern uint8_t img_3[504];
 extern uint8_t img_4[504];
 extern uint8_t img_5[504];
+uint8_t read_byte = 0x03;
 
 int main(void)
 {
@@ -47,23 +48,23 @@ int main(void)
 		delay(65000);
 		LCD_nokia_clear();
 
-		LCD_nokia_bitmap(img_1);
+		LCD_nokia_write_byte(read_byte, img_1);
 		delay(65000);
 		LCD_nokia_clear();
 
-		LCD_nokia_bitmap(img_2);
+		LCD_nokia_write_byte(read_byte, img_2);
 		delay(65000);
 		LCD_nokia_clear();
 
-		LCD_nokia_bitmap(img_3);
+		LCD_nokia_write_byte(read_byte, img_3);
 		delay(65000);
 		LCD_nokia_clear();
 
-		LCD_nokia_bitmap(img_4);
+		LCD_nokia_write_byte(read_byte, img_4);
 		delay(65000);
 		LCD_nokia_clear();
 
-		LCD_nokia_bitmap(img_5);
+		LCD_nokia_write_byte(read_byte, img_5);
 		delay(65000);
 		LCD_nokia_clear();
 
