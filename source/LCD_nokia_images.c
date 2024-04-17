@@ -1,7 +1,10 @@
 
 
 #include "LCD_nokia_images.h"
+#include "LCD_nokia.h"
+#include "SPI.h"
 
+uint8_t rx_array[504];
 const uint8_t ITESO[] = {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 		0x00, 0x20, 0x20, 0x30, 0x30, 0x30, 0x38, 0x38, 0x3C, 0x3C, 0x7C, 0x7C, 0x7C, 0xFC, 0xFE, 0xFE,
@@ -41,6 +44,44 @@ uint8_t img_2[504];
 uint8_t img_3[504];
 uint8_t img_4[504];
 uint8_t img_5[504];
+
+void LCD_readImg(){
+	static uint8_t index=0;
+	LCD_nokia_clear();
+	switch(index){
+	case 0:
+		SPI_mem_Read(LCD_img_base_addr_1, img_1);
+		LCD_nokia_bitmap(img_1);
+		index ++;
+	break;
+	case 1:
+		SPI_mem_Read(LCD_img_base_addr_2, img_2);
+		LCD_nokia_bitmap(img_2);
+		index ++;
+	break;
+	case 2:
+		SPI_mem_Read(LCD_img_base_addr_3, img_3);
+		LCD_nokia_bitmap(img_3);
+		index ++;
+	break;
+	case 3:
+		SPI_mem_Read(LCD_img_base_addr_4, img_4);
+		LCD_nokia_bitmap(img_4);
+		index ++;
+	break;
+	case 4:
+		SPI_mem_Read(LCD_img_base_addr_5, img_5);
+		LCD_nokia_bitmap(img_5);
+		index ++;
+	break;
+	case 5:
+		LCD_nokia_bitmap(ITESO);
+		index = 0;
+	break;
+
+	}
+}
+
 
 
 
