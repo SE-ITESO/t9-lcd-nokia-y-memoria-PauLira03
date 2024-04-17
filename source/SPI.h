@@ -22,5 +22,6 @@
 
 void SPI_config_LCD(void);
 void SPI_config_MEM(void);
+void SPI_mem_Read();
 
 #endif /* SPI_H_ */

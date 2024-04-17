@@ -3,7 +3,11 @@
 #include "fsl_port.h"
 #include "fsl_gpio.h"
 #include "fsl_clock.h"
+#include "fsl_dspi.h"
 #include "clock_config.h"
+#include "MK64F12.h"
+
+
 
 void SPI_config_LCD(void)
 {
@@ -56,8 +60,9 @@ void SPI_config_MEM(void)
 
 	dspi_master_config_t masterConfig;
 
-	CLOCK_EnableClock(kCLOCK_PortB);                           /* Port B Clock Gate Control: Clock enabled */
+	CLOCK_EnableClock(kCLOCK_PortC);                           /* Port B Clock Gate Control: Clock enabled */
 	CLOCK_EnableClock(kCLOCK_PortD);                           /* Port D Clock Gate Control: Clock enabled */
+	PORT_SetPinMux(PORTC, PIN3_IDX, kPORT_MuxAlt2);
 
 	PORT_SetPinMux(PORTB, PIN16_IDX, kPORT_MuxAlt3);           /* PORTB16 (pin 62) is configured as UART0_RX */
 	PORT_SetPinMux(PORTB, PIN17_IDX, kPORT_MuxAlt3);           /* PORTB17 (pin 63) is configured as UART0_TX */
@@ -68,7 +73,7 @@ void SPI_config_MEM(void)
 
 	 /* Master config */
 	// CPOL y CPHA = 1
-	masterConfig.whichCtar                                = kDSPI_Ctar0;
+	masterConfig.whichCtar                                = kDSPI_Ctar1;
 	masterConfig.ctarConfig.baudRate                      = TRANSFER_BAUDRATE;
 	masterConfig.ctarConfig.bitsPerFrame                  = 8U;
 	masterConfig.ctarConfig.cpol                          = kDSPI_ClockPolarityActiveLow;
@@ -78,7 +83,7 @@ void SPI_config_MEM(void)
 	masterConfig.ctarConfig.lastSckToPcsDelayInNanoSec    = 1000000000U / TRANSFER_BAUDRATE;
 	masterConfig.ctarConfig.betweenTransferDelayInNanoSec = 1000000000U / TRANSFER_BAUDRATE;
 
-	masterConfig.whichPcs           = kDSPI_Pcs0;
+	masterConfig.whichPcs           = kDSPI_Pcs1;
 	masterConfig.pcsActiveHighOrLow = kDSPI_PcsActiveLow;
 
 	masterConfig.enableContinuousSCK        = false;
@@ -88,5 +93,26 @@ void SPI_config_MEM(void)
 
 	srcClock_Hz = CLOCK_GetFreq(DSPI0_CLK_SRC);
 	DSPI_MasterInit(SPI0, &masterConfig, srcClock_Hz);
-
 }
+
+void SPI_mem_Read(uint32_t address, uint8_t *data) {
+	dspi_half_duplex_transfer_t masterXfer;
+    uint8_t txData[4];
+
+    // Construir el comando de lectura de la memoria SPI
+    txData[0] = 0x03;                       // Comando de lectura
+    txData[1] = (address >> 16) & 0xFF;     // Dirección alta
+    txData[2] = (address >> 8) & 0xFF;      // Dirección media
+    txData[3] = address & 0xFF;              // Dirección baja
+
+    masterXfer.txData = txData;
+    masterXfer.txDataSize = 4;
+    masterXfer.rxData = data;
+    masterXfer.rxDataSize = 504;              // Longitud de datos
+    masterXfer.configFlags = kDSPI_MasterCtar1 | kDSPI_MasterPcs1 | kDSPI_MasterPcsContinuous;;
+
+    DSPI_MasterHalfDuplexTransferBlocking(SPI0, &masterXfer);
+
+    }
+
+
